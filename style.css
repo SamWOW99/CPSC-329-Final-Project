@@ -1,0 +1,160 @@
+/* CSS encoding for webpage styles. Used in index.html
+
+Note: Colour scheme:
+- e7ebc5 : cream
+- f87060 : bittersweet
+- 3b1f2b : dark purple
+- 1d4e89 : YlnMn blue
+- 00b2ca : Moonstone
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+@media (max-width: 600px){
+	.header .site-header {font-size: 50%}
+
+}
+
+body {
+	background: #e7ebc5;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin: 0px;
+	width: 100%;
+}
+
+.header {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	max-width: 100%;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin: 0px;
+	font-family: 'Poppins', sans-serif;
+  	color: #3b1f2b;
+	background: #f87060;
+  	display: flex;
+	justify-content: space-between;
+	border-bottom: 10px solid #3b1f2b;
+	align-items: center;
+}
+
+.header header {
+	display: inline-block;
+}
+
+.homebutton {
+	display: inline-block;
+	margin: 20px;
+}
+
+.btn {
+	background-color: f87060;
+  	border: none;
+  	color: 3b1f2b;
+  	padding: 12px 16px;
+  	font-size: 16px;
+  	cursor: pointer;
+}
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+	direction: rtl;
+}
+
+.dropdowncontent {
+	display: none;
+	direction: ltr;
+	position: absolute;
+	background-color: #f87060;
+  	min-width: 100px;
+  	z-index: 1;
+}
+
+.dropdowncontent a {
+	color: #3b1f2b;
+	padding: 12px 16px;
+	display: block;
+	text-decoration: none;
+}
+
+.menucontainer {
+	display: inline-block;
+	cursor: pointer;
+	padding: 5px;
+	margin: 15px;
+}
+
+.dropdown:hover .dropdowncontent {
+	display: block;
+}
+
+.dropdown:hover .bar {
+	background-colour: #fff;
+}
+
+.dropdowncontent a:hover {
+	background-color: #f6442f;
+	color: #fff;
+}
+
+.bar {
+	width: 35px;
+	height: 5px;
+	background-color: #3b1f2b;
+	margin: 6px 0;
+	transition: 0.4s;
+}
+
+.body {
+	margin: 0px; padding: 0px;
+	margin-top: 100px;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.title {
+	font-family: 'Poppins', sans-serif;
+	color: #3b1f2b;	
+}
+
+.buttons {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+}
+
+.button {
+  	display: inline-block;
+  	padding: 10px 20px;
+  	background-color: #f87060;
+  	color: #3b1f2b;
+  	border: none;
+  	cursor: pointer;
+  	font-size: 20px;
+  	border-radius: 4px;
+  	transition: background-color 0.3s;
+  	margin-right: 5px;
+	margin-left: 5px;
+}
+
+.buttons .button:hover {
+	background-color: #f6442f;
+	color: #fff;
+}
+.container {
+  	padding: 20px;
+  	margin-top: 40px;
+	width: 80%;
+	max-width: 450px;
+  	background-color: #fff;
+  	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  	border-radius: 20px;
+	font-family: 'Poppins', sans-serif;
+
+}
