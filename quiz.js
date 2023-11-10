@@ -3,6 +3,9 @@ let currentQuestion = 0;
 let currentScore = 0;
 let highScore = 0;
 
+// Document elements
+const quizContainer = document.getElementById('quiz');
+
 // randomly shuffles the results of any array
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {

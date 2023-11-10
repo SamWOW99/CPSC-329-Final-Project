@@ -10,7 +10,7 @@ Note: Colour scheme:
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
 
-@media (max-width: 600px){
+@media only screen and (max-width: 600px){
 	.site-header {font-size: 10px}
 
 }
@@ -33,7 +33,6 @@ body {
 	padding-right: 20px;
 	margin: 0px;
 	font-family: 'Poppins', sans-serif;
-	font-size: 10px;
   	color: #3b1f2b;
 	background: #f87060;
   	display: flex;
@@ -118,6 +117,10 @@ body {
 	flex-wrap: wrap;
 }
 
+.hide {
+	color: #3b1f2b;
+}
+
 .title {
 	font-family: 'Poppins', sans-serif;
 	color: #3b1f2b;	
@@ -153,7 +156,7 @@ body {
   	margin-top: 40px;
 	width: 80%;
 	max-width: 450px;
-  	background-color: #e0cab6;
+  	background-color: #d9dcbb;
   	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   	border-radius: 20px;
 	font-family: 'Poppins', sans-serif;
