@@ -2,6 +2,10 @@
 let currentQuestion = 0;
 let currentScore = 0;
 let highScore = 0;
+let time;
+
+let quizData = [];
+const timer = 20;
 
 // Document elements
 const quizContainer = document.getElementById('quiz');
@@ -31,8 +35,39 @@ function UpdateScore(){
 }
 
 // displays a question from a shuffled array
-function displayQuestion(array){
-    
+function displayQuestion(questionContainer){
+  const questionData = quizData[currentQuestion];
+
+  const questionElement = document.createElement('div');
+  questionElement.className = 'question';
+  questionElement.innerHTML = questionData.question;
+
+  const optionsElement = document.createElement('div');
+  optionsElement.className = 'options';
+
+  const shuffledOptions = [...questionData.options];
+  shuffleArray(shuffledOptions);
+
+  for (let i = 0; i < shuffledOptions.length; i++) {
+    const option = document.createElement('label');
+    option.className = 'option';
+
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.name = 'quiz';
+    radio.value = shuffledOptions[i];
+
+    const optionText = document.createTextNode(shuffledOptions[i]);
+
+    option.appendChild(radio);
+    option.appendChild(optionText);
+    optionsElement.appendChild(option);
+  }
+
+  questionContainer.innerHTML = '';
+  questionContainer.appendChild(questionElement);
+  questionContainer.appendChild(optionsElement);
+
 }
 
 // Resets the screen to normal
@@ -42,14 +77,20 @@ function reset(){
 }
 
 function easyQuiz(){
+  quizData = easyQuestions;
+  shuffleArray(quizData);
   quiz();
 }
 
 function mediumQuiz(){
+  quizData = easyQuestions.concat(mediumQuestions);
+  shuffleArray(quizData);
   quiz();
 }
 
 function hardQuiz(){
+  quizData = easyQuestions.concat(mediumQuestions).concat(hardQuestions);
+  shuffleArray(quizData);
   quiz();
 }
 
@@ -69,6 +110,8 @@ function quiz(){
 
   quizContainer.appendChild(score);
   quizContainer.appendChild(questionContainer);
+
+  displayQuestion(questionContainer);
 }
 
 easyButton.addEventListener('click', easyQuiz);

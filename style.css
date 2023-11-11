@@ -160,6 +160,7 @@ body {
 	color:#3b1f2b;
 	font-family: 'Poppins', "sans-serif";
 }
+
 .container {
   	padding: 20px;
   	margin-top: 40px;
@@ -171,4 +172,14 @@ body {
 	font-family: 'Poppins', sans-serif;
 	color:#3b1f2b;
 	display: block;
+}
+
+.question {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.option {
+	display: block;
+	margin-bottom: 10px;
 }
