@@ -33,6 +33,7 @@ body {
 	padding-right: 20px;
 	margin: 0px;
 	font-family: 'Poppins', sans-serif;
+	font-size: 15px;
   	color: #3b1f2b;
 	background: #f87060;
   	display: flex;
@@ -117,8 +118,10 @@ body {
 	flex-wrap: wrap;
 }
 
-.hide {
-	color: #3b1f2b;
+.block {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
 }
 
 .title {
@@ -151,15 +154,21 @@ body {
 	background-color: #f6442f;
 	color: #fff;
 }
+
+.score {
+	display: none;
+	color:#3b1f2b;
+	font-family: 'Poppins', "sans-serif";
+}
 .container {
   	padding: 20px;
   	margin-top: 40px;
-	width: 80%;
-	max-width: 450px;
+	width: 450px;
+	max-width: 80%;
   	background-color: #d9dcbb;
   	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   	border-radius: 20px;
 	font-family: 'Poppins', sans-serif;
 	color:#3b1f2b;
-
+	display: block;
 }

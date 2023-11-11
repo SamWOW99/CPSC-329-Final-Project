@@ -5,7 +5,7 @@ let highScore = 0;
 
 // Document elements
 const quizContainer = document.getElementById('quiz');
-const score = document.getElementById('scores');
+const highscore = document.getElementById('highscore');
 const easyButton = document.getElementById('easy');
 const mediumButton = document.getElementById('medium');
 const hardButton = document.getElementById('hard');
@@ -37,19 +37,38 @@ function displayQuestion(array){
 
 // Resets the screen to normal
 function reset(){
-
+  beforeQuiz.style.display = 'flex';
+  quizContainer.style.display = 'none';
 }
 
 function easyQuiz(){
-  beforeQuiz.style.display = 'none';
+  quiz();
 }
 
 function mediumQuiz(){
-
+  quiz();
 }
 
 function hardQuiz(){
+  quiz();
+}
 
+function quiz(){
+  beforeQuiz.style.display = 'none';
+  quizContainer.style.display = 'block';
+  quizContainer.style.justifyContent = 'center';
+
+  const score = document.createElement('h1');
+  score.className = 'title'
+  score.style.marginTop = '80px';
+  score.style.fontSize = '20px';
+  score.innerHTML = 'Current score:';
+
+  const questionContainer = document.createElement('div');
+  questionContainer.className = 'container';
+
+  quizContainer.appendChild(score);
+  quizContainer.appendChild(questionContainer);
 }
 
 easyButton.addEventListener('click', easyQuiz);
