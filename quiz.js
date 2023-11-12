@@ -5,7 +5,9 @@ let highScore = 0;
 let time;
 
 let quizData = [];
-const timer = 20;
+let timer;
+let timeUp;
+let mode;
 
 // Document elements
 const quizContainer = document.getElementById('quiz');
@@ -26,11 +28,18 @@ function shuffleArray(array) {
 // displays the highscore after a game. Does not show anything
 // if highscore == 0.
 function displayHighScore(){
-
+  if (highScore > 0){
+    highscore.style.display = block;
+  }
 }
 
-// displays the score obtained. Stays visible after game play.
+// displays the score current score
 function UpdateScore(){
+  currentQuestion = currentQuestion + 1;
+  quiz();
+}
+
+function DisplayResults(){
 
 }
 
@@ -39,6 +48,7 @@ function displayQuestion(questionContainer){
   const questionData = quizData[currentQuestion];
 
   const questionElement = document.createElement('div');
+  questionElement.style.marginBottom = '30px';
   questionElement.className = 'question';
   questionElement.innerHTML = questionData.question;
 
@@ -49,6 +59,17 @@ function displayQuestion(questionContainer){
   shuffleArray(shuffledOptions);
 
   for (let i = 0; i < shuffledOptions.length; i++) {
+    var option = document.createElement('button');
+    option.className = 'option';
+
+    if(shuffledOptions[i] == questionData.answer){
+      option.addEventListener('click', UpdateScore);
+    }
+    else{
+      option.addEventListener('click', DisplayResults);
+    }
+    option.innerHTML = shuffledOptions[i];
+    /*
     const option = document.createElement('label');
     option.className = 'option';
 
@@ -60,7 +81,7 @@ function displayQuestion(questionContainer){
     const optionText = document.createTextNode(shuffledOptions[i]);
 
     option.appendChild(radio);
-    option.appendChild(optionText);
+    option.appendChild(optionText);*/
     optionsElement.appendChild(option);
   }
 
@@ -76,24 +97,34 @@ function reset(){
   quizContainer.style.display = 'none';
 }
 
+// Quiz data is taken from easy questions
 function easyQuiz(){
   quizData = easyQuestions;
   shuffleArray(quizData);
+  mode = 1;
+  timer = 20;
   quiz();
 }
 
+// Quiz data is taken from both easy and medium questions
 function mediumQuiz(){
   quizData = easyQuestions.concat(mediumQuestions);
   shuffleArray(quizData);
+  mode = 2;
+  timer = 15;
   quiz();
 }
 
+// Quiz data is taken from all question banks
 function hardQuiz(){
   quizData = easyQuestions.concat(mediumQuestions).concat(hardQuestions);
   shuffleArray(quizData);
+  mode = 3;
+  timer = 10;
   quiz();
 }
 
+// Responsible for quiz execution
 function quiz(){
   beforeQuiz.style.display = 'none';
   quizContainer.style.display = 'block';
@@ -108,6 +139,7 @@ function quiz(){
   const questionContainer = document.createElement('div');
   questionContainer.className = 'container';
 
+  quizContainer.innerHTML = "";
   quizContainer.appendChild(score);
   quizContainer.appendChild(questionContainer);
 
