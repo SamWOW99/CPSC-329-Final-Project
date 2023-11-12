@@ -6,9 +6,8 @@ let time;
 
 let quizData = [];
 let timer;
-let timeUp;
 let mode = 1;
-let timeLeft = 10;
+let timeLeft = 10000;
 
 // Document elements
 const quizContainer = document.getElementById('quiz');
@@ -17,6 +16,7 @@ const easyButton = document.getElementById('easy');
 const mediumButton = document.getElementById('medium');
 const hardButton = document.getElementById('hard');
 const beforeQuiz = document.getElementById('beforeQuiz');
+const timerBar = document.createElement('div');
 
 // randomly shuffles the results of any array
 function shuffleArray(array) {
@@ -36,18 +36,52 @@ function displayHighScore(){
 
 // displays the score current score
 function UpdateScore(){
-  let questionScore = 1;
+  let questionScore = Math.floor(timeLeft/timer * 100 * mode);
   currentScore = currentScore + questionScore;
   currentQuestion = currentQuestion + 1;
-  quiz();
+
+  timer = timer * 0.95;
+  if(currentQuestion<quizData.length){
+    quiz();
+  }
+  else{
+    DisplayResults();
+  }
+}
+
+function UpdateTimer(){
+  const leftBar = document.createElement('div');
+  const rightBar = document.createElement('div');
+
+  leftBar.style.display = 'inline-block';
+  rightBar.style.display = 'inline-block';
+
+  let percent = timeLeft/timer * 100;
+
+  leftBar.style.width = percent + "%";
+  rightBar.style.width = 100 - percent + "%";
+  leftBar.style.height = "20px";
+  rightBar.style.height = "20px";
+  leftBar.style.backgroundColor = "#f6442f";
+  rightBar.style.backgroundColor = "#3b1f2b";
+
+  timerBar.innerHTML = "";
+  timerBar.appendChild(leftBar);
+  timerBar.appendChild(rightBar);
+
+  if(timeLeft == 0){
+    clearInterval(time);
+  }
+
+  timeLeft = timeLeft - 100;
 }
 
 function DisplayWrongAnswer(){
-
+  clearInterval(time);
 }
 
 function DisplayResults(){
-
+  clearInterval(time);
 }
 
 // displays a question from a shuffled array
@@ -85,18 +119,12 @@ function displayQuestion(questionContainer){
 
 }
 
-// Resets the screen to normal
-function reset(){
-  beforeQuiz.style.display = 'flex';
-  quizContainer.style.display = 'none';
-}
-
 // Quiz data is taken from easy questions
 function easyQuiz(){
   quizData = easyQuestions;
   shuffleArray(quizData);
   mode = 1;
-  timer = 20;
+  timer = 15000;
   quiz();
 }
 
@@ -105,7 +133,7 @@ function mediumQuiz(){
   quizData = easyQuestions.concat(mediumQuestions);
   shuffleArray(quizData);
   mode = 2;
-  timer = 15;
+  timer = 10000;
   quiz();
 }
 
@@ -114,7 +142,7 @@ function hardQuiz(){
   quizData = easyQuestions.concat(mediumQuestions).concat(hardQuestions);
   shuffleArray(quizData);
   mode = 3;
-  timer = 10;
+  timer = 5000;
   quiz();
 }
 
@@ -130,14 +158,30 @@ function quiz(){
   score.style.fontSize = '20px';
   score.innerHTML = 'Current score: ' + currentScore;
 
+  timerBar.style.display = 'flex';
+  timerBar.style.width = '90%';
+
   var questionContainer = document.createElement('div');
   questionContainer.className = 'container';
 
   quizContainer.innerHTML = "";
   quizContainer.appendChild(score);
+  quizContainer.appendChild(timerBar);
   quizContainer.appendChild(questionContainer);
 
+  timeLeft = timer;
+  
+  clearInterval(time);
+
+  time = setInterval(UpdateTimer, 100);
+
   displayQuestion(questionContainer);
+}
+
+// Resets the screen to normal
+function reset(){
+  beforeQuiz.style.display = 'flex';
+  quizContainer.style.display = 'none';
 }
 
 easyButton.addEventListener('click', easyQuiz);
