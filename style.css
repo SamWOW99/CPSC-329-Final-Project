@@ -156,7 +156,7 @@ body {
 }
 
 .score {
-	display: none;
+	display: block;
 	color:#3b1f2b;
 	font-family: 'Poppins', "sans-serif";
 }

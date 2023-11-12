@@ -30,7 +30,7 @@ function shuffleArray(array) {
 // if highscore == 0.
 function displayHighScore(){
   if (highScore > 0){
-    highscore.style.display = block;
+    highscore.innerHTML = "Highscore: " + highScore;
   }
 }
 
@@ -71,6 +71,7 @@ function UpdateTimer(){
 
   if(timeLeft == 0){
     clearInterval(time);
+    DisplayWrongAnswer();
   }
 
   timeLeft = timeLeft - 100;
@@ -78,10 +79,36 @@ function UpdateTimer(){
 
 function DisplayWrongAnswer(){
   clearInterval(time);
+  DisplayResults();
 }
 
 function DisplayResults(){
   clearInterval(time);
+  quizContainer.innerHTML = "";
+
+  const msg = document.createElement('h1');
+  msg.className = 'title';
+  msg.innerHTML = 'Thanks for playing! Your score was: ' + currentScore + '!';
+  const buttons = document.createElement('div');
+  buttons.className = 'buttons';
+  var newMode = document.createElement('button');
+  newMode.className = 'button';
+  newMode.innerHTML = 'New Mode';
+  var retry = document.createElement('button');
+  retry.className = 'button';
+  retry.innerHTML = 'Retry';
+
+  buttons.appendChild(retry);
+  //buttons.appendChild(newMode);
+
+  retry.addEventListener('click', reset);
+
+  quizContainer.appendChild(msg);
+  quizContainer.appendChild(buttons);
+
+  if(currentScore > highScore){
+    highscore = currentScore;
+  }
 }
 
 // displays a question from a shuffled array
@@ -125,6 +152,7 @@ function easyQuiz(){
   shuffleArray(quizData);
   mode = 1;
   timer = 15000;
+  currentScore = 0;
   quiz();
 }
 
@@ -134,6 +162,7 @@ function mediumQuiz(){
   shuffleArray(quizData);
   mode = 2;
   timer = 10000;
+  currentScore = 0;
   quiz();
 }
 
@@ -143,6 +172,7 @@ function hardQuiz(){
   shuffleArray(quizData);
   mode = 3;
   timer = 5000;
+  currentScore = 0;
   quiz();
 }
 
@@ -182,6 +212,7 @@ function quiz(){
 function reset(){
   beforeQuiz.style.display = 'flex';
   quizContainer.style.display = 'none';
+  displayHighScore();
 }
 
 easyButton.addEventListener('click', easyQuiz);
