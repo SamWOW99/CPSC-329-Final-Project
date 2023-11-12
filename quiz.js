@@ -7,7 +7,8 @@ let time;
 let quizData = [];
 let timer;
 let timeUp;
-let mode;
+let mode = 1;
+let timeLeft = 10;
 
 // Document elements
 const quizContainer = document.getElementById('quiz');
@@ -35,8 +36,14 @@ function displayHighScore(){
 
 // displays the score current score
 function UpdateScore(){
+  let questionScore = 1;
+  currentScore = currentScore + questionScore;
   currentQuestion = currentQuestion + 1;
   quiz();
+}
+
+function DisplayWrongAnswer(){
+
 }
 
 function DisplayResults(){
@@ -66,22 +73,9 @@ function displayQuestion(questionContainer){
       option.addEventListener('click', UpdateScore);
     }
     else{
-      option.addEventListener('click', DisplayResults);
+      option.addEventListener('click', DisplayWrongAnswer);
     }
     option.innerHTML = shuffledOptions[i];
-    /*
-    const option = document.createElement('label');
-    option.className = 'option';
-
-    const radio = document.createElement('input');
-    radio.type = 'radio';
-    radio.name = 'quiz';
-    radio.value = shuffledOptions[i];
-
-    const optionText = document.createTextNode(shuffledOptions[i]);
-
-    option.appendChild(radio);
-    option.appendChild(optionText);*/
     optionsElement.appendChild(option);
   }
 
@@ -134,9 +128,9 @@ function quiz(){
   score.className = 'title'
   score.style.marginTop = '80px';
   score.style.fontSize = '20px';
-  score.innerHTML = 'Current score:';
+  score.innerHTML = 'Current score: ' + currentScore;
 
-  const questionContainer = document.createElement('div');
+  var questionContainer = document.createElement('div');
   questionContainer.className = 'container';
 
   quizContainer.innerHTML = "";

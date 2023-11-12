@@ -191,18 +191,18 @@ body {
 	margin-bottom: 10px;
 	width: 100%;
 	background-color:#b7ba9c;
+	color:#3b1f2b;
+	border:none;
 	font-family: 'Poppings', "sans-serif";
 	font-size: 16px;
 	border-radius: 5px;
-	border: #e7ebc5;
-	border-width: 10px;
 	cursor: pointer;
 	transition: background-color 0.3s;
 	height: 50px;
 }
 
 .options .option:hover{
-	background-color:#3b1f2b;
+	background-color:#f87060;
 	color:#fff;
 	box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.015);	
 }
