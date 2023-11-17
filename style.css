@@ -44,11 +44,21 @@ body {
 
 .header header {
 	display: inline-block;
+	
+}
+
+.site-header{
+	margin: auto;
+}
+
+.invisible {
+	visibility: hidden;
 }
 
 .homebutton {
 	display: inline-block;
-	margin: 20px;
+	/*margin: 20px;*/
+	width: 75;
 }
 
 .btn {

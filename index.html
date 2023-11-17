@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>CPSC 329 Project</title>
@@ -8,14 +8,19 @@
     </head>
     <body>
 	<div class="header">
-	    <div class="homebutton">
-		<a href="./">
-		<button class="button"><i class="material-icons">home</i></button>
-		</a>
+	    
+		<!--Invisible drop down menu on play page ensures title is perfectly centered-->
+		<div class="invisible">
+			<div class="menucontainer">
+				<div class="bar"></div><div class="bar"></div><div class="bar"></div>
+			</div>
+			<div class="dropdowncontent"></div>
 	    </div>
+
 	    <header id="masthead" class="site-header" role="banner">
 		<h1>Do You Know Your Malware?</h1>
 	    </header>
+
 	    <div class="dropdown">
 		<div class="menucontainer">
 		    <div class="bar"></div>
@@ -23,7 +28,6 @@
 		    <div class="bar"></div>
 		</div>
 		<div class="dropdowncontent">
-		    <a href="index.html">Play</a>
 		    <a href="learn.html">Learn</a>
 		    <a href="about.html">About</a>
 		</div>
@@ -31,25 +35,23 @@
 	</div>
 	<div class="body">
 		<div id="beforeQuiz" class = "block">
-	    	<div class="title">
-				<h1>Play</h1>
-	    	</div>
-			<h3 id="highscore" class="score"></h3>
-	    	<div class="buttons">
-	    		<button id="easy" class="button">Easy</button>
-	    		<button id="medium" class="button">Medium</button>
-	    		<button id="hard" class="button">Hard</button>
-	    	</div>
-	    	<div class="container">
-	    		<h1>Instructions</h1>
-	    		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa 
-qui officia deserunt mollit anim id est laborum.</p>
-			</div>
+	    <div class="title">
+			<h1>Play</h1>
+	    </div>
+	    <div class="buttons">
+	    	<button id="easy" class="button">Easy</button>
+	    	<button id="medium" class="button">Medium</button>
+	    	<button id="hard" class="button">Hard</button>
+	    </div>
+	    <div class="container">
+	    	<h1>Instructions</h1>
+	    	<p> Difficulty determines the difficulty of the questions, and how much time you are given to answer.<dd>
+					<strong>Easy:</strong>&emsp;&emsp;&ensp;&nbsp;15 sec/question<br>
+					<strong>Medidum:</strong> 11 sec/question<br>
+					<strong>Hard:</strong>&emsp;&emsp;&ensp;&nbsp;7 sec/question</dd><br>
+				Select a difficulty to start.
+			</p>
+		</div>
 		</div>
 		<div id="quiz"></div>
 	</div>

@@ -9,6 +9,8 @@ let timer;
 let mode = 1;
 let timeLeft = 10000;
 
+let multiplier = 1;
+
 // Document elements
 const quizContainer = document.getElementById('quiz');
 const highscore = document.getElementById('highscore');
@@ -36,9 +38,14 @@ function displayHighScore(){
 
 // displays the score current score
 function UpdateScore(){
-  let questionScore = Math.floor(timeLeft/timer * 100 * mode);
-  currentScore = currentScore + questionScore;
-  currentQuestion = currentQuestion + 1;
+  //let questionScore = Math.floor(timeLeft/timer * 100 * mode);
+  //currentScore = currentScore + questionScore;
+  //currentQuestion = currentQuestion + 1;
+  
+  // Sam's version
+  let questionScore = Math.floor(timeLeft/timer * 100 * multiplier);
+  currentScore += questionScore;
+  currentQuestion ++;
 
   timer = timer * 0.95;
   if(currentQuestion<quizData.length){
@@ -131,6 +138,8 @@ function displayQuestion(questionContainer){
     option.className = 'option';
 
     if(shuffledOptions[i] == questionData.answer){
+      multiplier = parseInt(questionData.multiplier);
+      console.log(multiplier);
       option.addEventListener('click', UpdateScore);
     }
     else{
@@ -153,6 +162,7 @@ function easyQuiz(){
   mode = 1;
   timer = 15000;
   currentScore = 0;
+  currentQuestion = 0;
   quiz();
 }
 
@@ -161,8 +171,10 @@ function mediumQuiz(){
   quizData = easyQuestions.concat(mediumQuestions);
   shuffleArray(quizData);
   mode = 2;
-  timer = 10000;
+  timer = 11000;
   currentScore = 0;
+
+  currentQuestion = 0;
   quiz();
 }
 
@@ -171,13 +183,17 @@ function hardQuiz(){
   quizData = easyQuestions.concat(mediumQuestions).concat(hardQuestions);
   shuffleArray(quizData);
   mode = 3;
-  timer = 5000;
+  timer = 7000;
   currentScore = 0;
+  
+  //Reset current question at begining of each quiz
+  currentQuestion = 0;
   quiz();
 }
 
 // Responsible for quiz execution
 function quiz(){
+
   beforeQuiz.style.display = 'none';
   quizContainer.style.display = 'block';
   quizContainer.style.justifyContent = 'center';
