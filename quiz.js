@@ -138,7 +138,7 @@ function displayQuestion(questionContainer){
     option.className = 'option';
 
     if(shuffledOptions[i] == questionData.answer){
-      multiplier = parseInt(questionData.multiplier);
+      multiplier = parseInt(questionData.difficulty);
       console.log(multiplier);
       option.addEventListener('click', UpdateScore);
     }
