@@ -3,11 +3,12 @@ let currentQuestion = 0;
 let currentScore = 0;
 let highScore = 0;
 let time;
+let fade;
 
 let quizData = [];
 let timer;
 let mode = 1;
-let timeLeft = 10000;
+let timeLeft = -1;
 
 let multiplier = 1;
 
@@ -56,7 +57,10 @@ function UpdateScore(){
   }
 }
 
-function UpdateTimer(){
+function TimeBarDecrease(timer){
+  if(timeLeft<0){
+    timeLeft = timer;
+  }
   const leftBar = document.createElement('div');
   const rightBar = document.createElement('div');
 
@@ -77,8 +81,43 @@ function UpdateTimer(){
   timerBar.appendChild(rightBar);
 
   if(timeLeft == 0){
+    timeLeft = -1;
     clearInterval(time);
     DisplayWrongAnswer();
+  }
+
+  timeLeft = timeLeft - 100;
+}
+
+function FadeIn(element, timer){
+  if (timeLeft < 0){
+    timeLeft = timer;
+  }
+
+  let percent = timeLeft/timer * 100;
+  element.style.opacity = "" + percent + "%"
+
+  if(timeLeft == 0){
+    timeLeft = -1;
+    clearInterval(fade);
+    element.style.opacity = "100%";
+  }
+
+  timeLeft = timeLeft - 100;
+}
+
+function FadeOut(element, timer){
+  if(timeLeft < 0){
+    timeLeft = timer;
+  }
+
+  let percent = 100 - (timeLeft/timer * 100);
+  element.style.opacity = "" + percent + "%";
+
+  if(timeLeft == 0){
+    timeLeft = -1;
+    clearInterval(fade);
+    element.style.opacity = "0%";
   }
 
   timeLeft = timeLeft - 100;
@@ -218,12 +257,10 @@ function quiz(){
   quizContainer.appendChild(score);
   quizContainer.appendChild(timerBar);
   quizContainer.appendChild(questionContainer);
-
-  timeLeft = timer;
   
   clearInterval(time);
 
-  time = setInterval(UpdateTimer, 100);
+  time = setInterval(TimeBarDecrease(timer), 100);
 
   displayQuestion(questionContainer);
 }
