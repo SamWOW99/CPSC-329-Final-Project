@@ -9,6 +9,7 @@ let quizData = [];
 let timer;
 let mode = 1;
 let timeLeft = -1;
+let timeLeftFade = -1;
 
 let multiplier = 1;
 
@@ -90,38 +91,38 @@ function TimeBarDecrease(timeToDo){
 }
 
 // Increases opacity in 10 msec intervals
-function FadeIn(element, timer){
-  if (timeLeft < 0){
-    timeLeft = timer;
+function FadeOut(element, timer){
+  if (timeLeftFade < 0){
+    timeLeftFade = timer;
   }
 
-  let percent = timeLeft/timer * 100;
+  let percent = timeLeftFade/timer * 100;
   element.style.opacity = "" + percent + "%"
 
-  if(timeLeft == 0){
-    timeLeft = -1;
-    clearInterval(fade);
-    element.style.opacity = "100%";
-  }
-
-  timeLeft = timeLeft - 10;
-}
-
-// Decreases opacity in 10 msec intervals
-function FadeOut(element, timer){
-  if(timeLeft < 0){
-    timeLeft = timer;
-  }
-
-  let percent = 100 - (timeLeft/timer * 100);
-  element.style.opacity = "" + percent + "%";
-
-  if(timeLeft == 0){
+  if(timeLeftFade == 0){
     timeLeft = -1;
     clearInterval(fade);
     element.style.opacity = "0%";
   }
-  timeLeft = timeLeft - 10;
+
+  timeLeftFade = timeLeftFade - 10;
+}
+
+// Decreases opacity in 10 msec intervals
+function FadeIn(element, timer){
+  if(timeLeftFade < 0){
+    timeLeftFade = timer;
+  }
+
+  let percent = 100 - (timeLeftFade/timer * 100);
+  element.style.opacity = "" + percent + "%";
+
+  if(timeLeftFade == 0){
+    timeLeftFade = -1;
+    clearInterval(fade);
+    element.style.opacity = "100%";
+  }
+  timeLeftFade = timeLeftFade - 10;
 }
 
 function DisplayWrongAnswer(){
@@ -164,6 +165,7 @@ function DisplayResults(){
 
 // displays a question from a shuffled array
 function displayQuestion(questionContainer){
+  timeLeft = -1;
   const questionData = quizData[currentQuestion];
 
   const questionElement = document.createElement('div');
@@ -197,6 +199,7 @@ function displayQuestion(questionContainer){
   questionContainer.appendChild(questionElement);
   questionContainer.appendChild(optionsElement);
 
+  fade = setInterval(FadeIn, 10, questionContainer, 500);
 }
 
 // Quiz data is taken from easy questions
