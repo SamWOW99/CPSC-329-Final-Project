@@ -96,6 +96,9 @@ function DisplayResults(){
   const msg = document.createElement('h1');
   msg.className = 'title';
   msg.innerHTML = 'Thanks for playing! Your score was: ' + currentScore + '!';
+  const msg2 = document.createElement('h2');
+  msg2. className = 'title';
+  msg2.innerHTML = 'You answered ' + currentQuestion + ' out of ' + quizData.length + ' questions.';
   const buttons = document.createElement('div');
   buttons.className = 'buttons';
   var newMode = document.createElement('button');
@@ -111,6 +114,7 @@ function DisplayResults(){
   retry.addEventListener('click', reset);
 
   quizContainer.appendChild(msg);
+  quizContainer.appendChild(msg2);
   quizContainer.appendChild(buttons);
 
   if(currentScore > highScore){
