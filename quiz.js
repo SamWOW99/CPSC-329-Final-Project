@@ -57,9 +57,9 @@ function UpdateScore(){
   }
 }
 
-function TimeBarDecrease(timer){
+function TimeBarDecrease(timeToDo){
   if(timeLeft<0){
-    timeLeft = timer;
+    timeLeft = timeToDo;
   }
   const leftBar = document.createElement('div');
   const rightBar = document.createElement('div');
@@ -67,7 +67,7 @@ function TimeBarDecrease(timer){
   leftBar.style.display = 'inline-block';
   rightBar.style.display = 'inline-block';
 
-  let percent = timeLeft/timer * 100;
+  let percent = timeLeft/timeToDo * 100;
 
   leftBar.style.width = percent + "%";
   rightBar.style.width = 100 - percent + "%";
@@ -89,6 +89,7 @@ function TimeBarDecrease(timer){
   timeLeft = timeLeft - 100;
 }
 
+// Increases opacity in 10 msec intervals
 function FadeIn(element, timer){
   if (timeLeft < 0){
     timeLeft = timer;
@@ -103,9 +104,10 @@ function FadeIn(element, timer){
     element.style.opacity = "100%";
   }
 
-  timeLeft = timeLeft - 100;
+  timeLeft = timeLeft - 10;
 }
 
+// Decreases opacity in 10 msec intervals
 function FadeOut(element, timer){
   if(timeLeft < 0){
     timeLeft = timer;
@@ -119,8 +121,7 @@ function FadeOut(element, timer){
     clearInterval(fade);
     element.style.opacity = "0%";
   }
-
-  timeLeft = timeLeft - 100;
+  timeLeft = timeLeft - 10;
 }
 
 function DisplayWrongAnswer(){
@@ -260,7 +261,7 @@ function quiz(){
   
   clearInterval(time);
 
-  time = setInterval(TimeBarDecrease(timer), 100);
+  time = setInterval(TimeBarDecrease, 100, timer);
 
   displayQuestion(questionContainer);
 }
