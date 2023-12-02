@@ -34,7 +34,7 @@ function shuffleArray(array) {
 // if highscore == 0.
 function displayHighScore(){
   if (highScore > 0){
-    highscore.innerHTML = "Highscore: " + highScore;
+    highScore.innerHTML = "Highscore: " + highScore;
   }
 }
 
@@ -81,7 +81,7 @@ function TimeBarDecrease(timeToDo){
   timerBar.appendChild(leftBar);
   timerBar.appendChild(rightBar);
 
-  if(timeLeft == 0){
+  if(timeLeft < 100){
     timeLeft = -1;
     clearInterval(time);
     DisplayWrongAnswer();
@@ -159,7 +159,7 @@ function DisplayResults(){
   quizContainer.appendChild(buttons);
 
   if(currentScore > highScore){
-    highscore = currentScore;
+    highScore = currentScore;
   }
 }
 
@@ -168,6 +168,7 @@ function displayQuestion(questionContainer){
   timeLeft = -1;
   const questionData = quizData[currentQuestion];
 
+  console.log(questionData.answer);
   const questionElement = document.createElement('div');
   questionElement.style.marginBottom = '30px';
   questionElement.className = 'question';
@@ -177,7 +178,7 @@ function displayQuestion(questionContainer){
   optionsElement.className = 'options';
 
   const shuffledOptions = [...questionData.options];
-  shuffleArray(shuffledOptions);
+  //shuffleArray(shuffledOptions);
 
   for (let i = 0; i < shuffledOptions.length; i++) {
     var option = document.createElement('button');
@@ -185,7 +186,6 @@ function displayQuestion(questionContainer){
 
     if(shuffledOptions[i] == questionData.answer){
       multiplier = parseInt(questionData.multiplier);
-      console.log(multiplier);
       option.addEventListener('click', UpdateScore);
     }
     else{
@@ -207,7 +207,7 @@ function easyQuiz(){
   quizData = easyQuestions;
   shuffleArray(quizData);
   mode = 1;
-  timer = 15000;
+  timer = 125000;
   currentScore = 0;
   currentQuestion = 0;
   quiz();
@@ -218,7 +218,7 @@ function mediumQuiz(){
   quizData = easyQuestions.concat(mediumQuestions);
   shuffleArray(quizData);
   mode = 2;
-  timer = 11000;
+  timer = 21000;
   currentScore = 0;
 
   currentQuestion = 0;
@@ -230,7 +230,7 @@ function hardQuiz(){
   quizData = easyQuestions.concat(mediumQuestions).concat(hardQuestions);
   shuffleArray(quizData);
   mode = 3;
-  timer = 7000;
+  timer = 17000;
   currentScore = 0;
   
   //Reset current question at begining of each quiz
