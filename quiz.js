@@ -3,11 +3,13 @@ let currentQuestion = 0;
 let currentScore = 0;
 let highScore = 0;
 let time;
+let fade;
 
 let quizData = [];
 let timer;
 let mode = 1;
-let timeLeft = 10000;
+let timeLeft = -1;
+let timeLeftFade = -1;
 
 let multiplier = 1;
 
@@ -32,7 +34,7 @@ function shuffleArray(array) {
 // if highscore == 0.
 function displayHighScore(){
   if (highScore > 0){
-    highscore.innerHTML = "Highscore: " + highScore;
+    highScore.innerHTML = "Highscore: " + highScore;
   }
 }
 
@@ -56,14 +58,17 @@ function UpdateScore(){
   }
 }
 
-function UpdateTimer(){
+function TimeBarDecrease(timeToDo){
+  if(timeLeft<0){
+    timeLeft = timeToDo;
+  }
   const leftBar = document.createElement('div');
   const rightBar = document.createElement('div');
 
   leftBar.style.display = 'inline-block';
   rightBar.style.display = 'inline-block';
 
-  let percent = timeLeft/timer * 100;
+  let percent = timeLeft/timeToDo * 100;
 
   leftBar.style.width = percent + "%";
   rightBar.style.width = 100 - percent + "%";
@@ -76,12 +81,48 @@ function UpdateTimer(){
   timerBar.appendChild(leftBar);
   timerBar.appendChild(rightBar);
 
-  if(timeLeft == 0){
+  if(timeLeft < 100){
+    timeLeft = -1;
     clearInterval(time);
     DisplayWrongAnswer();
   }
 
   timeLeft = timeLeft - 100;
+}
+
+// Increases opacity in 10 msec intervals
+function FadeOut(element, timer){
+  if (timeLeftFade < 0){
+    timeLeftFade = timer;
+  }
+
+  let percent = timeLeftFade/timer * 100;
+  element.style.opacity = "" + percent + "%"
+
+  if(timeLeftFade == 0){
+    timeLeft = -1;
+    clearInterval(fade);
+    element.style.opacity = "0%";
+  }
+
+  timeLeftFade = timeLeftFade - 10;
+}
+
+// Decreases opacity in 10 msec intervals
+function FadeIn(element, timer){
+  if(timeLeftFade < 0){
+    timeLeftFade = timer;
+  }
+
+  let percent = 100 - (timeLeftFade/timer * 100);
+  element.style.opacity = "" + percent + "%";
+
+  if(timeLeftFade == 0){
+    timeLeftFade = -1;
+    clearInterval(fade);
+    element.style.opacity = "100%";
+  }
+  timeLeftFade = timeLeftFade - 10;
 }
 
 function DisplayWrongAnswer(){
@@ -96,6 +137,9 @@ function DisplayResults(){
   const msg = document.createElement('h1');
   msg.className = 'title';
   msg.innerHTML = 'Thanks for playing! Your score was: ' + currentScore + '!';
+  const msg2 = document.createElement('h2');
+  msg2. className = 'title';
+  msg2.innerHTML = 'You answered ' + currentQuestion + ' out of ' + quizData.length + ' questions.';
   const buttons = document.createElement('div');
   buttons.className = 'buttons';
   var newMode = document.createElement('button');
@@ -111,17 +155,20 @@ function DisplayResults(){
   retry.addEventListener('click', reset);
 
   quizContainer.appendChild(msg);
+  quizContainer.appendChild(msg2);
   quizContainer.appendChild(buttons);
 
   if(currentScore > highScore){
-    highscore = currentScore;
+    highScore = currentScore;
   }
 }
 
 // displays a question from a shuffled array
 function displayQuestion(questionContainer){
+  timeLeft = -1;
   const questionData = quizData[currentQuestion];
 
+  console.log(questionData.answer);
   const questionElement = document.createElement('div');
   questionElement.style.marginBottom = '30px';
   questionElement.className = 'question';
@@ -131,7 +178,7 @@ function displayQuestion(questionContainer){
   optionsElement.className = 'options';
 
   const shuffledOptions = [...questionData.options];
-  shuffleArray(shuffledOptions);
+  //shuffleArray(shuffledOptions);
 
   for (let i = 0; i < shuffledOptions.length; i++) {
     var option = document.createElement('button');
@@ -139,7 +186,6 @@ function displayQuestion(questionContainer){
 
     if(shuffledOptions[i] == questionData.answer){
       multiplier = parseInt(questionData.multiplier);
-      console.log(multiplier);
       option.addEventListener('click', UpdateScore);
     }
     else{
@@ -153,6 +199,7 @@ function displayQuestion(questionContainer){
   questionContainer.appendChild(questionElement);
   questionContainer.appendChild(optionsElement);
 
+  fade = setInterval(FadeIn, 10, questionContainer, 500);
 }
 
 // Quiz data is taken from easy questions
@@ -160,7 +207,7 @@ function easyQuiz(){
   quizData = easyQuestions;
   shuffleArray(quizData);
   mode = 1;
-  timer = 15000;
+  timer = 125000;
   currentScore = 0;
   currentQuestion = 0;
   quiz();
@@ -171,7 +218,7 @@ function mediumQuiz(){
   quizData = easyQuestions.concat(mediumQuestions);
   shuffleArray(quizData);
   mode = 2;
-  timer = 11000;
+  timer = 21000;
   currentScore = 0;
 
   currentQuestion = 0;
@@ -183,7 +230,7 @@ function hardQuiz(){
   quizData = easyQuestions.concat(mediumQuestions).concat(hardQuestions);
   shuffleArray(quizData);
   mode = 3;
-  timer = 7000;
+  timer = 17000;
   currentScore = 0;
   
   //Reset current question at begining of each quiz
@@ -214,12 +261,10 @@ function quiz(){
   quizContainer.appendChild(score);
   quizContainer.appendChild(timerBar);
   quizContainer.appendChild(questionContainer);
-
-  timeLeft = timer;
   
   clearInterval(time);
 
-  time = setInterval(UpdateTimer, 100);
+  time = setInterval(TimeBarDecrease, 100, timer);
 
   displayQuestion(questionContainer);
 }
