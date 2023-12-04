@@ -68,17 +68,41 @@
                     options.appendChild(li);
                 });
 
-                // Put correct answer below the otions 
+                // Create a button to show/hide answer and explanation
+                const toggleAnswerBtn = document.createElement('button');
+                toggleAnswerBtn.innerHTML = 'Show Answer';
+                let answerVisible = false;
+
+                // Toggle between state of hide and show answer
+                toggleAnswerBtn.addEventListener('click', () => {
+                    if (!answerVisible) {
+                        answer.style.display = 'block';
+                        explanation.style.display = 'block';
+                        toggleAnswerBtn.innerHTML = 'Hide Answer';
+                        answerVisible = true;
+                    } else {
+                        answer.style.display = 'none';
+                        explanation.style.display = 'none';
+                        toggleAnswerBtn.innerHTML = 'Show Answer';
+                        answerVisible = false;
+                    }
+                });
+
+                // Put correct answer below the otions(Hidden until button is clicked)
                 const answer = document.createElement('p');
                 answer.innerHTML = `Answer: ${questionData.answer}`;
+                answer.style.display = 'none';  // Initially hidden
 
-                // Put the explanation last
+                // Put the explanation last (Hidden until button is clicked)
                 const explanation = document.createElement('p');
                 explanation.innerHTML = `Explanation: ${questionData.explanation}`;
+                explanation.style.display = 'none';  // Initially hidden
+
 
                 // Append in the order retrieved above
                 flashcard.appendChild(question);
                 flashcard.appendChild(options);
+                flashcard.appendChild(toggleAnswerBtn);   // Button that must be clicked to see answer
                 flashcard.appendChild(answer);
                 flashcard.appendChild(explanation);
 
