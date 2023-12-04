@@ -77,9 +77,9 @@ function TimeBarDecrease() {
   const timerBar = document.getElementById('timerBar');
 
   if (!timerPaused) {
-    if (timerBar.style.display === 'none') {
-      timerBar.style.display = 'block'; // Display the timer bar when timer starts
-    }
+    //if (timerBar.style.display === 'none') {
+    // timerBar.style.display = 'block'; // Display the timer bar when timer starts
+    //}
 
     const leftBar = document.createElement('div');
     const rightBar = document.createElement('div');
@@ -146,7 +146,32 @@ function FadeIn(element, timer){
 
 function DisplayWrongAnswer(){
   clearInterval(time);
-  DisplayResults();
+  quizContainer.innerHTML = "";
+  quizContainer.className = 'container';
+  const questionData = quizData[currentQuestion];
+
+  const msg = document.createElement('h1');
+  msg.className = 'title';
+  msg.innerHTML = 'Wrong Answer. The correct answer was: ';
+  const msg2 = document.createElement('h2');
+  msg2. className = 'title';
+  msg2.innerHTML = questionData.answer;
+  const msg3 = document.createElement('p');
+  msg3.innerHTML = questionData.explanation;
+  const buttons = document.createElement('div');
+  buttons.className = 'buttons';
+  var next = document.createElement('button');
+  next.className = 'button';
+  next.innerHTML = 'Next';
+
+  buttons.appendChild(next);
+  next.addEventListener('click', DisplayResults);
+
+  quizContainer.appendChild(msg);
+  quizContainer.appendChild(msg2);
+  quizContainer.appendChild(msg3);
+  quizContainer.appendChild(buttons);
+  //DisplayResults();
 }
 
 function DisplayResults(){
@@ -243,7 +268,7 @@ function displayQuestion(questionContainer) {
         }
       }, 100);
     }
-  }, 5000); // 5 seconds delay before displaying options
+  }, 3000); // 5 seconds delay before displaying options
 }
 
 // Quiz data is taken from easy questions
