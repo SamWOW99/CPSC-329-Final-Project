@@ -1,37 +1,94 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Learn</title>
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    </head>
-    <body>
-        <div class="header">
-            <div class="homebutton">
-                <a href="index.html">
-                <button class="button"><i class="material-icons">home</i></button>
-                </a>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+    <!-- Import the questions from questions.js -->
+    <script src="questions.js"></script>
+    <!-- Home Button, Burger Menu, and Banner -->
+    <div class="header">
+        <div class="homebutton">
+            <a href="index.html">
+            <button class="button"><i class="material-icons">home</i></button>
+            </a>
+        </div>
+        <header id="masthead" class="site-header" role="banner">
+            <h1>Do You Know Your Malware?</h1>
+        </header>
+        <div class="dropdown">
+            <div class="menucontainer">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
             </div>
-            <header id="masthead" class="site-header" role="banner">
-                <h1>Do You Know Your Malware?</h1>
-            </header>
-            <div class="dropdown">
-                <div class="menucontainer">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                </div>
-                <div class="dropdowncontent">
-                    <a href="index.html">Play</a>
-                    <a href="about.html">About</a>
-                </div>
+            <div class="dropdowncontent">
+                <a href="index.html">Play</a>
+                <a href="about.html">About</a>
             </div>
         </div>
-        <div class="body">
-            <div class="title">
-                <h1>Learn</h1>
-            </div>
+    </div>
+    <!-- Questions and title -->
+    <div class="body">
+        <div class="title">
+            <h1>Learn</h1>
         </div>
-    </body>
+        <div id="flashcard-container" class="flashcard-container">
+            <!-- Flashcards will be dynamically added here -->
+        </div>
+    </div>
+
+    <script>
+        // Get all questions
+        const questions = easyQuestions.concat(mediumQuestions).concat(hardQuestions);
+
+        // Function to create flashcards dynamically
+        function createFlashcards() {
+            const flashcardContainer = document.getElementById('flashcard-container');
+
+            questions.forEach((questionData, index) => {
+                const flashcard = document.createElement('div');
+                flashcard.classList.add('flashcard');
+
+                // Append question as header in flashcard
+                const question = document.createElement('h2');
+                question.innerHTML = `Question ${index + 1}: ${questionData.question}`;
+
+                // Get questions options
+                const options = document.createElement('ul');
+                options.classList.add('options');
+
+                // Append options as bulleted list below
+                questionData.options.forEach((option) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = option;
+                    options.appendChild(li);
+                });
+
+                // Put correct answer below the otions 
+                const answer = document.createElement('p');
+                answer.innerHTML = `Answer: ${questionData.answer}`;
+
+                // Put the explanation last
+                const explanation = document.createElement('p');
+                explanation.innerHTML = `Explanation: ${questionData.explanation}`;
+
+                // Append in the order retrieved above
+                flashcard.appendChild(question);
+                flashcard.appendChild(options);
+                flashcard.appendChild(answer);
+                flashcard.appendChild(explanation);
+
+                // Add flashcard to the page
+                flashcardContainer.appendChild(flashcard);
+            });
+        }
+
+        // Call the function to create flashcards when the page loads
+        window.onload = createFlashcards;
+    </script>
+</body>
 </html>
