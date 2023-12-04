@@ -6,6 +6,7 @@ let time;
 let fade;
 let timerPaused = true; // Flag to pause the timer initially
 
+
 let quizData = [];
 let timer;
 let mode = 1;
@@ -24,18 +25,6 @@ const beforeQuiz = document.getElementById('beforeQuiz');
 const timerBar = document.createElement('div');
 timerBar.id = 'timerBar'; // Assign an ID to the timer bar element
 
-// Function to initialize the timer bar
-function initializeTimerBar() {
-  timerBar.style.display = 'none'; // Hide the timer bar initially
-  timerBar.style.backgroundColor = 'gray'; // Set timer bar background color (customize as needed)
-  timerBar.style.height = '20px'; // Set timer bar height (customize as needed)
-
-  document.body.appendChild(timerBar);
-}
-
-
-// Call the function to initialize the timer bar
-initializeTimerBar();
 
 // randomly shuffles the results of any array
 function shuffleArray(array) {
@@ -65,6 +54,8 @@ function UpdateScore(){
   currentQuestion ++;
 
   timer = timer * 0.95;
+  console.log("currentQuestion: ",currentQuestion,"\nquizData.length: ", quizData.length);
+
   if(currentQuestion<quizData.length){
     quiz();
   }
@@ -74,35 +65,37 @@ function UpdateScore(){
 }
 
 function TimeBarDecrease(timeToDo){
-  if(timeLeft<0){
-    timeLeft = timeToDo;
+  if (!timerPaused) {
+    if(timeLeft<0){
+      timeLeft = timeToDo;
+    }
+    const leftBar = document.createElement('div');
+    const rightBar = document.createElement('div');
+
+    leftBar.style.display = 'inline-block';
+    rightBar.style.display = 'inline-block';
+
+    let percent = timeLeft/timeToDo * 100;
+
+    leftBar.style.width = percent + "%";
+    rightBar.style.width = 100 - percent + "%";
+    leftBar.style.height = "20px";
+    rightBar.style.height = "20px";
+    leftBar.style.backgroundColor = "#f6442f";
+    rightBar.style.backgroundColor = "#3b1f2b";
+
+    timerBar.innerHTML = "";
+    timerBar.appendChild(leftBar);
+    timerBar.appendChild(rightBar);
+
+    if(timeLeft < 100){
+      timeLeft = -1;
+      clearInterval(time);
+      DisplayWrongAnswer();
+    }
+
+    timeLeft -= 100;
   }
-  const leftBar = document.createElement('div');
-  const rightBar = document.createElement('div');
-
-  leftBar.style.display = 'inline-block';
-  rightBar.style.display = 'inline-block';
-
-  let percent = timeLeft/timeToDo * 100;
-
-  leftBar.style.width = percent + "%";
-  rightBar.style.width = 100 - percent + "%";
-  leftBar.style.height = "20px";
-  rightBar.style.height = "20px";
-  leftBar.style.backgroundColor = "#f6442f";
-  rightBar.style.backgroundColor = "#3b1f2b";
-
-  timerBar.innerHTML = "";
-  timerBar.appendChild(leftBar);
-  timerBar.appendChild(rightBar);
-
-  if(timeLeft < 100){
-    timeLeft = -1;
-    clearInterval(time);
-    DisplayWrongAnswer();
-  }
-
-  timeLeft = timeLeft - 100;
 }
 
 
@@ -218,28 +211,33 @@ function displayQuestion(questionContainer) {
 
   questionContainer.innerHTML = '';
   questionContainer.appendChild(questionElement);
+  
+
+  timerBar.style.display = 'flex'; // Set the initial display style for the timer bar
+  timerBar.style.width = '90%'; // Adjust width if needed
 
   let optionsDisplayed = false;
 
   // Delay displaying the options for 5 seconds (5000 milliseconds)
   setTimeout(() => {
     if (!optionsDisplayed) {
+  
       const optionsElement = document.createElement('div');
       optionsElement.className = 'options';
 
       const shuffledOptions = [...questionData.options];
-      // shuffleArray(shuffledOptions);
+      //shuffleArray(shuffledOptions);
 
       for (let i = 0; i < shuffledOptions.length; i++) {
         var option = document.createElement('button');
         option.className = 'option';
 
-        if (shuffledOptions[i] == questionData.answer) {
+        if(shuffledOptions[i] == questionData.answer){
           multiplier = parseInt(questionData.multiplier);
           option.addEventListener('click', () => {
-            UpdateScore();
             timerPaused = true; // Pause the timer after a correct answer
-          });
+            UpdateScore();
+          });        
         } else {
           option.addEventListener('click', DisplayWrongAnswer);
         }
@@ -253,14 +251,10 @@ function displayQuestion(questionContainer) {
       optionsDisplayed = true;
 
       // Start timer countdown after options are displayed
-      timeLeft = timer; // Set timeLeft based on the timer duration
       timerPaused = false; // Unpause the timer
-
-      // Initiate the timer after options are displayed
-      clearInterval(time);
-      time = setInterval(TimeBarDecrease, 100, timer);
+      
     }
-  }, 3000); // 5 seconds delay before displaying options
+  }, 5000); // 5 seconds delay before displaying options
 }
 
 // Quiz data is taken from easy questions
@@ -268,6 +262,7 @@ function easyQuiz(){
   quizData = easyQuestions;
   shuffleArray(quizData);
   mode = 1;
+  timer = 60000;
   timer = 25000;
   currentScore = 0;
   currentQuestion = 0;
