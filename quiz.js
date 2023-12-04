@@ -5,7 +5,7 @@ let highScore = 0;
 let time;
 let fade;
 let timerPaused = true; // Flag to pause the timer initially
-
+let wrongAnswer = true; // Flag to determine if time ran out or wrong choice was selected
 
 let quizData = [];
 let timer;
@@ -54,7 +54,7 @@ function UpdateScore(){
   currentQuestion ++;
 
   timer = timer * 0.95;
-  console.log("currentQuestion: ",currentQuestion,"\nquizData.length: ", quizData.length);
+  //console.log("currentQuestion: ",currentQuestion,"\nquizData.length: ", quizData.length);
 
   if(currentQuestion<quizData.length){
     quiz();
@@ -90,6 +90,7 @@ function TimeBarDecrease(timeToDo){
 
     if(timeLeft < 100){
       timeLeft = -1;
+      wrongAnswer = false;
       clearInterval(time);
       DisplayWrongAnswer();
     }
@@ -142,7 +143,12 @@ function DisplayWrongAnswer(){
 
   const msg = document.createElement('h1');
   msg.className = 'title';
-  msg.innerHTML = 'Wrong Answer. The correct answer was: ';
+  if(wrongAnswer){
+    msg.innerHTML = 'Wrong Answer. The correct answer was: ';
+  }
+  else {
+    msg.innerHTML = 'Out of Time. The correct answer was: ';
+  }
   const msg2 = document.createElement('h2');
   msg2. className = 'title';
   msg2.innerHTML = questionData.answer;
