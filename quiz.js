@@ -199,7 +199,7 @@ function DisplayResults(){
 
 // displays a question from a shuffled array
 function displayQuestion(questionContainer) {
-  clearInterval(time);
+  //clearInterval(time);
   timeLeft = -1;
   const questionData = quizData[currentQuestion];
 
@@ -262,9 +262,9 @@ function easyQuiz(){
   quizData = easyQuestions;
   shuffleArray(quizData);
   mode = 1;
-  timer = 60000;
   timer = 25000;
   currentScore = 0;
+
   currentQuestion = 0;
   quiz();
 }
@@ -319,6 +319,9 @@ function quiz(){
   quizContainer.appendChild(timerBar);
   quizContainer.appendChild(questionContainer);
   
+  clearInterval(time);
+  time = setInterval(TimeBarDecrease, 100, timer);
+
   displayQuestion(questionContainer);
 }
 
