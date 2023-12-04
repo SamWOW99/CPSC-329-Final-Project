@@ -91,8 +91,8 @@ const easyQuestions = [
         multiplier: "1",
     },
     {
-        question: 'A malicious software that collects information about users knowledge  or consent is called?',
-        options: ["Dropper", "worm", "Trojan", "Spyware"],
+        question: 'A malicious software that collects information about users knowledge or consent is called?',
+        options: ["Dropper", "Worm", "Trojan", "Spyware"],
         answer: "Spyware",
         explanation: "A spyware is a type of malware that infects users devices, gathers data and sends it to third parties without their consent or knowledge",
         multiplier: "1",
