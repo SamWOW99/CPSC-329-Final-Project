@@ -4,6 +4,8 @@ let currentScore = 0;
 let highScore = 0;
 let time;
 let fade;
+let timerPaused = true; // Flag to pause the timer initially
+
 
 let quizData = [];
 let timer;
@@ -21,6 +23,8 @@ const mediumButton = document.getElementById('medium');
 const hardButton = document.getElementById('hard');
 const beforeQuiz = document.getElementById('beforeQuiz');
 const timerBar = document.createElement('div');
+timerBar.id = 'timerBar'; // Assign an ID to the timer bar element
+
 
 // randomly shuffles the results of any array
 function shuffleArray(array) {
@@ -50,6 +54,8 @@ function UpdateScore(){
   currentQuestion ++;
 
   timer = timer * 0.95;
+  console.log("currentQuestion: ",currentQuestion,"\nquizData.length: ", quizData.length);
+
   if(currentQuestion<quizData.length){
     quiz();
   }
@@ -59,35 +65,37 @@ function UpdateScore(){
 }
 
 function TimeBarDecrease(timeToDo){
-  if(timeLeft<0){
-    timeLeft = timeToDo;
+  if (!timerPaused) {
+    if(timeLeft<0){
+      timeLeft = timeToDo;
+    }
+    const leftBar = document.createElement('div');
+    const rightBar = document.createElement('div');
+
+    leftBar.style.display = 'inline-block';
+    rightBar.style.display = 'inline-block';
+
+    let percent = timeLeft/timeToDo * 100;
+
+    leftBar.style.width = percent + "%";
+    rightBar.style.width = 100 - percent + "%";
+    leftBar.style.height = "20px";
+    rightBar.style.height = "20px";
+    leftBar.style.backgroundColor = "#f6442f";
+    rightBar.style.backgroundColor = "#3b1f2b";
+
+    timerBar.innerHTML = "";
+    timerBar.appendChild(leftBar);
+    timerBar.appendChild(rightBar);
+
+    if(timeLeft < 100){
+      timeLeft = -1;
+      clearInterval(time);
+      DisplayWrongAnswer();
+    }
+
+    timeLeft -= 100;
   }
-  const leftBar = document.createElement('div');
-  const rightBar = document.createElement('div');
-
-  leftBar.style.display = 'inline-block';
-  rightBar.style.display = 'inline-block';
-
-  let percent = timeLeft/timeToDo * 100;
-
-  leftBar.style.width = percent + "%";
-  rightBar.style.width = 100 - percent + "%";
-  leftBar.style.height = "20px";
-  rightBar.style.height = "20px";
-  leftBar.style.backgroundColor = "#f6442f";
-  rightBar.style.backgroundColor = "#3b1f2b";
-
-  timerBar.innerHTML = "";
-  timerBar.appendChild(leftBar);
-  timerBar.appendChild(rightBar);
-
-  if(timeLeft < 100){
-    timeLeft = -1;
-    clearInterval(time);
-    DisplayWrongAnswer();
-  }
-
-  timeLeft = timeLeft - 100;
 }
 
 // Increases opacity in 10 msec intervals
@@ -174,32 +182,52 @@ function displayQuestion(questionContainer){
   questionElement.className = 'question';
   questionElement.innerHTML = questionData.question;
 
-  const optionsElement = document.createElement('div');
-  optionsElement.className = 'options';
-
-  const shuffledOptions = [...questionData.options];
-  //shuffleArray(shuffledOptions);
-
-  for (let i = 0; i < shuffledOptions.length; i++) {
-    var option = document.createElement('button');
-    option.className = 'option';
-
-    if(shuffledOptions[i] == questionData.answer){
-      multiplier = parseInt(questionData.multiplier);
-      option.addEventListener('click', UpdateScore);
-    }
-    else{
-      option.addEventListener('click', DisplayWrongAnswer);
-    }
-    option.innerHTML = shuffledOptions[i];
-    optionsElement.appendChild(option);
-  }
-
   questionContainer.innerHTML = '';
   questionContainer.appendChild(questionElement);
-  questionContainer.appendChild(optionsElement);
+  
 
-  fade = setInterval(FadeIn, 10, questionContainer, 500);
+  timerBar.style.display = 'flex'; // Set the initial display style for the timer bar
+  timerBar.style.width = '90%'; // Adjust width if needed
+
+  let optionsDisplayed = false;
+
+  // Delay displaying the options for 5 seconds (5000 milliseconds)
+  setTimeout(() => {
+    if (!optionsDisplayed) {
+  
+      const optionsElement = document.createElement('div');
+      optionsElement.className = 'options';
+
+      const shuffledOptions = [...questionData.options];
+      //shuffleArray(shuffledOptions);
+
+      for (let i = 0; i < shuffledOptions.length; i++) {
+        var option = document.createElement('button');
+        option.className = 'option';
+
+        if(shuffledOptions[i] == questionData.answer){
+          multiplier = parseInt(questionData.multiplier);
+          option.addEventListener('click', () => {
+            timerPaused = true; // Pause the timer after a correct answer
+            UpdateScore();
+          });        
+        } else {
+          option.addEventListener('click', DisplayWrongAnswer);
+        }
+        option.innerHTML = shuffledOptions[i];
+        optionsElement.appendChild(option);
+      }
+
+      questionContainer.appendChild(optionsElement);
+      fade = setInterval(FadeIn, 10, questionContainer, 500);
+
+      optionsDisplayed = true;
+
+      // Start timer countdown after options are displayed
+      timerPaused = false; // Unpause the timer
+      
+    }
+  }, 5000); // 5 seconds delay before displaying options
 }
 
 // Quiz data is taken from easy questions
@@ -207,7 +235,7 @@ function easyQuiz(){
   quizData = easyQuestions;
   shuffleArray(quizData);
   mode = 1;
-  timer = 125000;
+  timer = 60000;
   currentScore = 0;
   currentQuestion = 0;
   quiz();
@@ -273,6 +301,7 @@ function quiz(){
 function reset(){
   beforeQuiz.style.display = 'flex';
   quizContainer.style.display = 'none';
+  timerPaused = true;
   displayHighScore();
 }
 
