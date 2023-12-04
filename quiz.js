@@ -73,39 +73,36 @@ function UpdateScore(){
   }
 }
 
-function TimeBarDecrease() {
-  const timerBar = document.getElementById('timerBar');
-
-  if (!timerPaused) {
-    //if (timerBar.style.display === 'none') {
-    // timerBar.style.display = 'block'; // Display the timer bar when timer starts
-    //}
-
-    const leftBar = document.createElement('div');
-    const rightBar = document.createElement('div');
-
-    leftBar.style.display = 'inline-block';
-    rightBar.style.display = 'inline-block';
-
-    const percent = (timeLeft / timer) * 100; // Assuming 'timeLeft' and 'timer' are accessible variables
-
-    leftBar.style.width = percent + "%";
-    rightBar.style.width = 100 - percent + "%";
-    leftBar.style.height = "20px";
-    rightBar.style.height = "20px";
-    leftBar.style.backgroundColor = "#f6442f";
-    rightBar.style.backgroundColor = "#3b1f2b";
-
-    timerBar.innerHTML = "";
-    timerBar.appendChild(leftBar);
-    timerBar.appendChild(rightBar);
-
-    timeLeft -= 100;
-    if (timeLeft < 0) {
-      clearInterval(time);
-      DisplayWrongAnswer();
-    }
+function TimeBarDecrease(timeToDo){
+  if(timeLeft<0){
+    timeLeft = timeToDo;
   }
+  const leftBar = document.createElement('div');
+  const rightBar = document.createElement('div');
+
+  leftBar.style.display = 'inline-block';
+  rightBar.style.display = 'inline-block';
+
+  let percent = timeLeft/timeToDo * 100;
+
+  leftBar.style.width = percent + "%";
+  rightBar.style.width = 100 - percent + "%";
+  leftBar.style.height = "20px";
+  rightBar.style.height = "20px";
+  leftBar.style.backgroundColor = "#f6442f";
+  rightBar.style.backgroundColor = "#3b1f2b";
+
+  timerBar.innerHTML = "";
+  timerBar.appendChild(leftBar);
+  timerBar.appendChild(rightBar);
+
+  if(timeLeft < 100){
+    timeLeft = -1;
+    clearInterval(time);
+    DisplayWrongAnswer();
+  }
+
+  timeLeft = timeLeft - 100;
 }
 
 
@@ -209,6 +206,7 @@ function DisplayResults(){
 
 // displays a question from a shuffled array
 function displayQuestion(questionContainer) {
+  clearInterval(time);
   timeLeft = -1;
   const questionData = quizData[currentQuestion];
 
@@ -260,13 +258,7 @@ function displayQuestion(questionContainer) {
 
       // Initiate the timer after options are displayed
       clearInterval(time);
-      time = setInterval(() => {
-        TimeBarDecrease();
-        if (timeLeft < 0) {
-          clearInterval(time);
-          DisplayWrongAnswer();
-        }
-      }, 100);
+      time = setInterval(TimeBarDecrease, 100, timer);
     }
   }, 3000); // 5 seconds delay before displaying options
 }
@@ -276,7 +268,7 @@ function easyQuiz(){
   quizData = easyQuestions;
   shuffleArray(quizData);
   mode = 1;
-  timer = 125000;
+  timer = 25000;
   currentScore = 0;
   currentQuestion = 0;
   quiz();
@@ -327,6 +319,7 @@ function quiz(){
   questionContainer.className = 'container';
 
   quizContainer.innerHTML = "";
+  quizContainer.className = "";
   quizContainer.appendChild(score);
   quizContainer.appendChild(timerBar);
   quizContainer.appendChild(questionContainer);
