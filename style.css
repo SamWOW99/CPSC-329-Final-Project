@@ -10,10 +10,147 @@ Note: Colour scheme:
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
 
-@media only screen and (max-width: 600px){
-	.site-header {font-size: 10px}
+@media only screen and (max-width: 600px) {
+    body {
+        margin: 60px 0 0 0; /* Adjust top margin to create space */
+        margin: 60px 0 0 0; /* Adjust top margin to create space */
+        background: #e7ebc5;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+    }
 
+	/* Ensure h1 doesn't get obscured by the header */
+    .body {
+        margin-top: 20px; /* Adjust margin-top */
+    }
+
+	/* Prevent header from obscuring h1 */
+	.header + .body {
+		margin-top: 60px; /* Increase margin-top to accommodate header */
+	}
+
+    .header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        max-width: 100%;
+        padding: 10px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px; /* Adjust header font size */
+        color: #3b1f2b;
+        background: #f87060;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 10px solid #3b1f2b;
+        align-items: center;
+        z-index: 100; /* Ensure header is above content */
+    }
+
+    header h1 {
+        font-size: 24px; /* Adjust header font size */
+        margin: 10px 0; /* Adjust margin for spacing */
+    }
+
+    #timerBar {
+        width: 90%; /* Adjust width */
+        height: 10px; /* Adjust height */
+        margin: 10px auto; /* Center the timeBar and add margin */
+        background-color: #00b2ca; /* Background color */
+        border-radius: 5px; /* Rounded corners */
+        display: flex;
+    }
+
+    #timerBar > div {
+        height: 100%; /* Set div height */
+        transition: width 1s linear; /* Smooth width transition */
+    }
+
+    .dropdown {
+        display: block;
+        text-align: center;
+        margin-top: 10px; /* Add margin for spacing */
+    }
+
+    .dropdown .menucontainer {
+        display: none; /* Hide menu bars */
+    }
+
+    .dropdown .dropdowncontent {
+        display: block; /* Show dropdown links */
+        position: static; /* Change position to static */
+        background-color: #f87060; /* Adjust background color */
+    }
+
+    .dropdowncontent a {
+        display: block;
+        padding: 10px 0; /* Adjust padding */
+    }
+
+    .body {
+        margin-top: 60px; /* Adjust margin-top */
+        padding: 10px; /* Add padding */
+    }
+
+    .block {
+        margin-top: 60px; /* Adjust margin-top to position under header */
+    }
+
+    .title {
+		font-family: 'Poppins', sans-serif;
+        color: #3b1f2b;
+        text-align: center; /* Center align the text */
+        margin-bottom: 10px; /* Add margin at the bottom */
+    }
+
+    .buttons {
+        flex-direction: column; /* Stack buttons vertically */
+        align-items: center; /* Center align buttons */
+    }
+
+    .button {
+        margin: 5px 0; /* Adjust button margin */
+        width: 80%; /* Set button width */
+    }
+
+    .container {
+        width: 90%; /* Adjust container width */
+        max-width: 90%; /* Ensure maximum width */
+        margin: 20px auto; /* Center the container and add margin */
+        padding: 15px; /* Adjust padding */
+        background-color: #d9dcbb; /* Background color */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Box shadow */
+        border-radius: 10px; /* Rounded corners */
+        font-size: 14px; /* Adjust font size */
+        text-align: justify; /* Justify text for better readability */
+		margin-top: 20px; /* Adjust margin-top */
+
+    }
+
+    .question {
+        font-weight: bold;
+        font-size: 18px; /* Adjust question font size */
+        margin-bottom: 10px;
+    }
+
+    .options {
+        display: flex;
+        flex-direction: column; /* Stack options vertically */
+        align-items: center; /* Center align options */
+    }
+
+    .option {
+        margin-bottom: 10px;
+        width: 90%; /* Adjust option width */
+        height: 40px; /* Adjust option height */
+        font-size: 14px; /* Adjust option font size */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
 }
+
 
 body {
 	background: #e7ebc5;
@@ -174,7 +311,7 @@ body {
 .container {
   	padding: 20px;
   	margin-top: 40px;
-	width: 450px;
+	/*width: 450px;*/
 	max-width: 80%;
   	background-color: #d9dcbb;
   	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
