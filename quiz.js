@@ -53,7 +53,9 @@ function UpdateScore(){
   currentScore += questionScore;
   currentQuestion ++;
 
-  timer = timer * 0.95;
+  if(timer > 5){
+    timer = timer * 0.95;
+  }
   //console.log("currentQuestion: ",currentQuestion,"\nquizData.length: ", quizData.length);
 
   if(currentQuestion<quizData.length){
