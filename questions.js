@@ -366,7 +366,7 @@ const hardQuestions = [
         {
         question: "Read the following situation: A former employee embedded a malicious code before his leave from his position at a software company, he programmed the code so that once he left, it would delete all of the companies spreadsheets of important data after three day, what type of maleware did he install?",
         options: ["Trojan Horse", "Rootkit", "Time Bomb", "Logic Bomb"],
-        answer: "Time bomb",
+        answer: "Time Bomb",
         explanation: "Although a logic bomb is similar to a time bomb where they are designed to activate with malicious functions under a specific condition, the situation above is that of a time bomb because the malicious code was set to activate after a predetermined time",
         multiplier: "3",
         },
