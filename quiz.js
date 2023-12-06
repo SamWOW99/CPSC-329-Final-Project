@@ -151,6 +151,7 @@ function DisplayWrongAnswer(){
   else {
     msg.innerHTML = 'Out of Time. The correct answer was: ';
   }
+  wrongAnswer = true;
   const msg2 = document.createElement('h2');
   msg2. className = 'title';
   msg2.innerHTML = questionData.answer;
